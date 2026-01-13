@@ -2,10 +2,17 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# 安装系统依赖和 cron
+# 安装系统依赖、cron 和浏览器所需的库
 RUN apt-get update && apt-get install -y \
     curl \
     cron \
+    # Camoufox 浏览器依赖
+    libgtk-3-0 \
+    libdbus-glib-1-2 \
+    libxt6 \
+    libx11-xcb1 \
+    libasound2 \
+    libpci3 \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 uv
@@ -55,9 +62,9 @@ chmod 0644 /etc/cron.d/checkin\n\
 # 应用 cron 任务\n\
 crontab /etc/cron.d/checkin\n\
 \n\
-# 立即执行一次\n\
+# 立即执行一次（忽略退出码，避免容器重启）\n\
 echo "🚀 立即执行一次签到..."\n\
-cd /app && /usr/local/bin/uv run main.py\n\
+cd /app && /usr/local/bin/uv run main.py || echo "⚠️ 首次签到完成（可能有失败）"\n\
 \n\
 # 启动 cron 服务\n\
 echo "✅ 启动 cron 定时任务服务"\n\

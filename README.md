@@ -285,6 +285,50 @@ Affs:
 2. 网站是否更改了签到接口
 3. 查看 Actions 运行日志获取详细错误信息
 
+## Docker Compose 部署
+
+### 方式一：使用预构建镜像（推荐）
+
+```bash
+# 1. 复制配置文件
+cp .env.example .env
+
+# 2. 编辑 .env 填入你的账号信息
+
+# 3. 修改 docker-compose.yml，取消注释 image 行并注释 build 行
+# image: ghcr.io/你的用户名/你的仓库名:latest
+
+# 4. 启动服务
+docker compose up -d
+
+# 5. 查看日志
+docker compose logs -f
+
+# 6. 停止服务
+docker compose down
+```
+
+### 方式二：本地构建
+
+```bash
+# 1. 复制配置文件
+cp .env.example .env
+
+# 2. 编辑 .env 填入你的账号信息
+
+# 3. 启动服务（自动构建）
+docker compose up -d
+
+# 4. 查看日志
+docker compose logs -f
+```
+
+### Docker 镜像自动构建
+
+项目已配置 GitHub Actions，当代码推送到 main/master 分支时会自动构建并推送镜像到 GitHub Container Registry。
+
+镜像地址：`ghcr.io/你的用户名/你的仓库名:latest`
+
 ## 本地开发环境设置
 
 如果你需要在本地测试或开发，请按照以下步骤设置：

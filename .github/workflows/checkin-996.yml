@@ -1,11 +1,13 @@
-name: 996 hub 自动签到
+name: 996 hub 自动签到 (已禁用 - 请使用 Docker 部署)
 on:
-  schedule:
-    - cron: '0 */8 * * *'
+  # 已禁用此工作流，请使用 Docker Compose 部署
+  # schedule:
+  #   - cron: '0 */8 * * *'
   workflow_dispatch:
 
 jobs:
   checkin:
+    if: false  # 禁用此工作流
     permissions:
       id-token: write
       contents: read

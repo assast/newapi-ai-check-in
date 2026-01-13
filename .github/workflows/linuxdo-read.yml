@@ -1,15 +1,17 @@
-name: Linux.do 自动阅读帖子
+name: Linux.do 自动阅读帖子 (已禁用 - 请使用 Docker 部署)
 on:
-  schedule:
-    # UTC 时间，北京时间 9、14、20 点执行
-    # UTC 01:00 = 北京 09:00
-    # UTC 06:00 = 北京 14:00
-    # UTC 12:00 = 北京 20:00
-    - cron: '0 1,6,12 * * *'  # 北京 09,14,20
+  # 已禁用此工作流，请使用 Docker Compose 部署
+  # schedule:
+  #   # UTC 时间，北京时间 9、14、20 点执行
+  #   # UTC 01:00 = 北京 09:00
+  #   # UTC 06:00 = 北京 14:00
+  #   # UTC 12:00 = 北京 20:00
+  #   - cron: '0 1,6,12 * * *'  # 北京 09,14,20
   workflow_dispatch:
 
 jobs:
   read-posts:
+    if: false  # 禁用此工作流
     permissions:
       id-token: write
       contents: read

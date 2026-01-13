@@ -33,5 +33,18 @@
       }
     ],
     "access_token": "来自 https://qd.x666.me/"
+  },
+  {
+    "name": "runawaytime 账号（可选配置 get_cdk_cookies）",
+    "provider": "runawaytime",
+    "linux.do": true
+  },
+  {
+    "name": "b4u 账号（必须配置 get_cdk_cookies）",
+    "provider": "b4u",
+    "linux.do": true,
+    "get_cdk_cookies": {
+      "__Secure-authjs.session-token": "来自 https://tw.b4u.qzz.io/"
+    }
   }
 ]

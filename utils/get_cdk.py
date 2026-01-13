@@ -30,7 +30,7 @@ def get_runawaytime_cdk(
     通过 fuli.hxi.me 签到和大转盘获取 CDK
 
     Args:
-        account_config: 账号配置对象，需要包含 get_cdk_cookies 在 extra 中
+        account_config: 账号配置对象，可选包含 get_cdk_cookies 在 extra 中
 
     Yields:
         tuple[bool, dict]: (True, {"code": "xxx"}) 成功，(False, {"error": "msg"}) 失败
@@ -41,8 +41,8 @@ def get_runawaytime_cdk(
     get_cdk_cookies = account_config.get("fuli_cookies") or account_config.get("get_cdk_cookies")
 
     if not get_cdk_cookies:
-        print(f"❌ {account_name}: get_cdk_cookies not found in account config")
-        yield False, {"error": "get_cdk_cookies not found in account config"}
+        print(f"ℹ️ {account_name}: get_cdk_cookies not configured, skipping CDK retrieval")
+        yield True, {"code": ""}  # 返回空 code，表示不需要充值
         return
 
     # 代理优先级: 账号配置 > 全局配置

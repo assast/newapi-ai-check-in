@@ -123,10 +123,10 @@ Affs:
       "proxy": {
         "server": "http://username:password@proxy.example.com:8080"
       },
-      //provider: x666 必须配置
+      // provider: x666 必须配置
       "access_token": "来自 https://qd.x666.me/",
       "get_cdk_cookies": {
-        // provider: runawaytime 必须配置
+        // provider: runawaytime 可选配置（用于获取额外 CDK）
         "session": "来自 https://fuli.hxi.me/",
         // provider: b4u 必须配置
         "__Secure-authjs.session-token": "来自 https://tw.b4u.qzz.io/"

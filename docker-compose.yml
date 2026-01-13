@@ -13,5 +13,9 @@ services:
     volumes:
       - ./data:/app/data
       - ./balance_hash.txt:/app/balance_hash.txt
+      - camoufox-cache:/root/.local/share/camoufox
     environment:
       - TZ=Asia/Shanghai
+
+volumes:
+  camoufox-cache:

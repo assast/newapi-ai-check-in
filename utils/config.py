@@ -796,19 +796,32 @@ class AppConfig:
         global_linux_do_accounts: List["OAuthAccountConfig"],
         global_github_accounts: List["OAuthAccountConfig"],
     ) -> List["AccountConfig"]:
-        """从环境变量加载多账号配置
+        """从环境变量或 JSON 文件加载多账号配置
         
         Args:
-            accounts_env: 环境变量名称或直接的 JSON 字符串值
-                         优先尝试作为环境变量名获取，获取不到则作为值使用
+            accounts_env: 环境变量名称
             global_linux_do_accounts: 全局 Linux.do 账号列表
             global_github_accounts: 全局 GitHub 账号列表
         
         Returns:
             账号配置列表，如果加载失败则返回空列表
         """
-        # 从环境变量获取账号配置
-        accounts_str = os.getenv(accounts_env)
+        # 优先检查是否配置了 ACCOUNTS_FILE 环境变量
+        accounts_file = os.getenv("ACCOUNTS_FILE")
+        if accounts_file:
+            try:
+                with open(accounts_file, 'r', encoding='utf-8') as f:
+                    accounts_str = f.read()
+                print(f"⚙️ Loading accounts from file: {accounts_file}")
+            except FileNotFoundError:
+                print(f"❌ Accounts file not found: {accounts_file}")
+                return []
+            except Exception as e:
+                print(f"❌ Error reading accounts file: {e}")
+                return []
+        else:
+            # 从环境变量获取账号配置
+            accounts_str = os.getenv(accounts_env)
         
         if not accounts_str:
             print(f"⚠️ {accounts_env} environment variable not found")

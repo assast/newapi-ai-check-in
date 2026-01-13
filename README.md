@@ -308,6 +308,8 @@ docker compose up -d
 
 # 5. 查看日志
 docker compose logs -f
+# 或查看定时任务日志
+docker exec newapi-checkin tail -f /var/log/checkin.log
 
 # 6. 停止服务
 docker compose down
@@ -327,6 +329,23 @@ docker compose up -d
 # 4. 查看日志
 docker compose logs -f
 ```
+
+### 自定义签到频率
+
+在 `docker-compose.yml` 中设置 `CRON_SCHEDULE` 环境变量：
+
+```yaml
+environment:
+  - TZ=Asia/Shanghai
+  - CRON_SCHEDULE=0 */8 * * *  # 每 8 小时执行一次（默认）
+```
+
+常用 Cron 表达式示例：
+- `0 */8 * * *` - 每 8 小时执行一次（默认）
+- `0 0 * * *` - 每天 0 点执行
+- `0 0,12 * * *` - 每天 0 点和 12 点执行
+- `0 8,20 * * *` - 每天 8 点和 20 点执行
+- `0 */6 * * *` - 每 6 小时执行一次
 
 ### Docker 镜像自动构建
 

@@ -13,9 +13,12 @@ services:
     volumes:
       - ./data:/app/data
       - ./balance_hash.txt:/app/balance_hash.txt
+      - ./logs:/var/log
       - camoufox-cache:/root/.local/share/camoufox
     environment:
       - TZ=Asia/Shanghai
+      # 自定义 cron 表达式（可选，默认每 8 小时执行一次）
+      # - CRON_SCHEDULE=0 */8 * * *
 
 volumes:
   camoufox-cache:

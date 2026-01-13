@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
     libx11-xcb1 \
     libasound2 \
     libpci3 \
+    # 虚拟显示服务器
+    xvfb \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 uv
@@ -30,6 +32,7 @@ RUN mkdir -p /app/data
 
 # 设置环境变量
 ENV PYTHONUNBUFFERED=1
+ENV DISPLAY=:99
 
 # 创建日志目录
 RUN mkdir -p /var/log
@@ -37,6 +40,12 @@ RUN mkdir -p /var/log
 # 创建启动脚本
 RUN echo '#!/bin/bash\n\
 set -e\n\
+\n\
+# 启动虚拟显示服务器\n\
+echo "🖥️ 启动虚拟显示服务器..."\n\
+Xvfb :99 -screen 0 1280x720x24 > /dev/null 2>&1 &\n\
+sleep 2\n\
+echo "✅ 虚拟显示服务器已启动"\n\
 \n\
 # 检查并下载 Camoufox 浏览器\n\
 echo "🔍 检查 Camoufox 浏览器..."\n\
@@ -54,7 +63,7 @@ CRON_SCHEDULE="${CRON_SCHEDULE:-0 */8 * * *}"\n\
 echo "⏰ 设置定时任务: $CRON_SCHEDULE"\n\
 \n\
 # 创建 cron 任务文件\n\
-echo "$CRON_SCHEDULE cd /app && /usr/local/bin/uv run main.py >> /var/log/checkin.log 2>&1" > /etc/cron.d/checkin\n\
+echo "$CRON_SCHEDULE cd /app && DISPLAY=:99 /usr/local/bin/uv run main.py >> /var/log/checkin.log 2>&1" > /etc/cron.d/checkin\n\
 \n\
 # 设置权限\n\
 chmod 0644 /etc/cron.d/checkin\n\

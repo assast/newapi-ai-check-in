@@ -81,10 +81,9 @@ class NotificationKit:
 		if not self.telegram_bot_token or not self.telegram_chat_id:
 			raise ValueError('Telegram Bot Token or Chat ID not configured')
 
-		message = f'<b>{title}</b>\n\n{content}'
-		data = {'chat_id': self.telegram_chat_id, 'text': message, 'parse_mode': 'HTML'}
-		url = f'https://api.telegram.org/bot{self.telegram_bot_token}/sendMessage'
-		curl_requests.post(url, json=data, timeout=30)
+		text = f'*{title}*\n{content}'
+		data = {'chat_id': self.telegram_chat_id, 'text': text, 'parse_mode': 'Markdown'}
+		curl_requests.post(f'https://api.telegram.org/bot{self.telegram_bot_token}/sendMessage', json=data, timeout=30)
 
 	def push_message(self, title: str, content: str, msg_type: Literal['text', 'html'] = 'text'):
 		notifications = [

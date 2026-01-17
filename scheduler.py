@@ -7,6 +7,7 @@
 import os
 import sys
 import time
+import subprocess
 import schedule
 from datetime import datetime
 from dotenv import load_dotenv
@@ -23,8 +24,18 @@ def run_checkin():
     
     # 导入并运行主程序
     try:
-        from main import run_main
-        run_main()
+        # 使用 subprocess 运行，避免 sys.exit 影响调度器
+        import subprocess
+        result = subprocess.run(
+            [sys.executable, "-m", "main"],
+            cwd=os.path.dirname(os.path.abspath(__file__)),
+            capture_output=False,
+            text=True
+        )
+        
+        if result.returncode != 0:
+            print(f"⚠️ 签到任务返回非零退出码: {result.returncode}")
+        
     except Exception as e:
         print(f"❌ 签到任务执行失败: {e}")
     

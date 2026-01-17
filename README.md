@@ -332,20 +332,29 @@ docker compose logs -f
 
 ### 自定义签到频率
 
-在 `docker-compose.yml` 中设置 `CRON_SCHEDULE` 环境变量：
+在 `docker-compose.yml` 中设置 `SCHEDULE_TIME` 环境变量：
 
 ```yaml
 environment:
   - TZ=Asia/Shanghai
-  - CRON_SCHEDULE=0 */8 * * *  # 每 8 小时执行一次（默认）
+  - SCHEDULE_TIME=8h  # 每 8 小时执行一次（默认）
 ```
 
-常用 Cron 表达式示例：
-- `0 */8 * * *` - 每 8 小时执行一次（默认）
-- `0 0 * * *` - 每天 0 点执行
-- `0 0,12 * * *` - 每天 0 点和 12 点执行
-- `0 8,20 * * *` - 每天 8 点和 20 点执行
-- `0 */6 * * *` - 每 6 小时执行一次
+支持的格式：
+- `8h` - 每 8 小时执行一次（默认）
+- `30m` - 每 30 分钟执行一次
+- `09:00` - 每天 09:00 执行
+- `09:00,15:00,21:00` - 每天 09:00, 15:00, 21:00 执行
+
+### 查看日志
+
+```bash
+# 查看容器日志（包含调度器和签到日志）
+docker compose logs -f
+
+# 查看最近 100 行日志
+docker compose logs --tail=100
+```
 
 ### Docker 镜像自动构建
 

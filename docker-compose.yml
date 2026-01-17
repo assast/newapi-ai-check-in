@@ -13,14 +13,14 @@ services:
     volumes:
       - ./data:/app/data
       - ./balance_hash.txt:/app/balance_hash.txt
-      - ./logs:/var/log
       - camoufox-cache:/root/.local/share/camoufox
       # 如果使用 accounts.json 文件，取消下面的注释
       # - ./accounts.json:/app/accounts.json:ro
     environment:
       - TZ=Asia/Shanghai
-      # 自定义 cron 表达式（可选，默认每 8 小时执行一次）
-      # - CRON_SCHEDULE=0 */8 * * *
+      # 自定义执行频率（可选，默认每 8 小时执行一次）
+      # 支持格式: "8h" (每8小时), "30m" (每30分钟), "09:00" (每天9点), "09:00,15:00,21:00" (每天多个时间点)
+      # - SCHEDULE_TIME=8h
 
 volumes:
   camoufox-cache:
